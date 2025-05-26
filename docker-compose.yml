@@ -1,0 +1,28 @@
+services:
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.11.1
+    ports:
+      - "5500:5000"
+    env_file:
+      - .env
+    environment:
+      BACKEND_STORE_URI: mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:3306/${MYSQL_DATABASE}
+      ARTIFACT_ROOT: s3://${MINIO_BUCKET}/mlflow/
+      MLFLOW_S3_ENDPOINT_URL: ${MINIO_URL}
+      AWS_ACCESS_KEY_ID: ${MINIO_ACCESS_KEY}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_SECRET_KEY}
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+    networks:
+      - mlflownetwork
+    container_name: mlflow_server
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.5
+    platform: linux/arm64/v8
+
+networks:
+  mlflownetwork:
+    driver: bridge
