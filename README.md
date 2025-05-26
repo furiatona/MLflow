@@ -15,6 +15,7 @@ This repository provides a ready-to-use [MLflow](https://mlflow.org/) server dep
 Use these prebuilt Dockerized services as prerequisites:
 - [MySQL instance](https://github.com/furiatona/database-docker)
 - [MinIO instance](https://github.com/furiatona/minio-storage)
+
 Then, create the required database and S3 bucket
 
 ### 2. Configure Environment Variables
